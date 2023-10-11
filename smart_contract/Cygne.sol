@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
+
+import "./Token.sol";
 
 contract Cygne {
-    constructor(){
 
-    }
+    mapping (address => Token) teacherToERC;
+
+
 }
