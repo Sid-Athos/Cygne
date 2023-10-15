@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 import "./Token.sol";
 
 contract TokenInstance is Token {
-    constructor(address initialOwner)
-    ERC20("MyToken", "MTK")
+    constructor(address initialOwner, string _name, string _symbol)
+    ERC20(_name, _symbol)
     Ownable(initialOwner)
     {}
 
