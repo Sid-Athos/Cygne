@@ -12,4 +12,8 @@ contract TokenInstance is Token {
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
+
+    function burn(uint256 value) public virtual {
+        _burn(_msgSender(), value);
+    }
 }
