@@ -9,13 +9,14 @@ contract Cygne {
 
     struct Teacher {
         string name;
-        Token token;
+        address token;
         Course[] courses;
     }
 
     struct Course {
         string datetime;
         string location;
+        uint256 price;
     }
 
     mapping (address => Teacher) private addressToTeacher;
@@ -30,9 +31,9 @@ contract Cygne {
         );
     }
 
-    function createCourse(string datetime, string location) public {
+    function createCourse(string datetime, string location, uint256 price) public {
         require(addressToTeacher[msg.sender].isValue);
-        addressToTeacher[msg.sender].courses.push(Course(datetime, location));
+        addressToTeacher[msg.sender].courses.push(Course(datetime, location, price));
     }
 
     function getTeacher(address teacherAddress) public view returns (Teacher teacher) {
@@ -50,7 +51,7 @@ contract Cygne {
         msg.sender.send(tokenValue * amount);
     }
 
-    function participateCourse() public {
-
+    function participateCourse(address teacherAddress, uint256 courseId) public {
+        IERC20(addressToTeacher[teacherAddress].token).transferFrom(msg.sender, teacherAddress, addressToTeacher[teacherAddress].courses[courseId].price);
     }
 }
