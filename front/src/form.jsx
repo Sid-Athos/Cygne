@@ -6,103 +6,19 @@ import {useEffect, useState} from "react";
 export default function Form(){
     const abi = [
         {
-            "constant": false,
             "inputs": [
                 {
-                    "name": "courseId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "payCourse",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "courseId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "payTeacher",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "addressToTeacherId",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "courses",
-            "outputs": [
-                {
+                    "internalType": "string",
                     "name": "datetime",
                     "type": "string"
                 },
                 {
+                    "internalType": "string",
                     "name": "location",
                     "type": "string"
                 },
                 {
-                    "name": "price",
-                    "type": "uint256"
-                },
-                {
-                    "name": "sizeSubscribers",
-                    "type": "uint256"
-                },
-                {
-                    "name": "isPaid",
-                    "type": "bool"
-                },
-                {
-                    "name": "teacherAddress",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "datetime",
-                    "type": "string"
-                },
-                {
-                    "name": "location",
-                    "type": "string"
-                },
-                {
+                    "internalType": "uint256",
                     "name": "price",
                     "type": "uint256"
                 }
@@ -110,18 +26,126 @@ export default function Form(){
             "name": "createCourse",
             "outputs": [
                 {
+                    "internalType": "uint256",
                     "name": "courseId",
                     "type": "uint256"
                 }
             ],
-            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "courseId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "payCourse",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "courseId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "payTeacher",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "_name",
+                    "type": "string"
+                }
+            ],
+            "name": "registerAsTeacher",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "teacherId",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "addressToTeacherId",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "courses",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "datetime",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "location",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "sizeSubscribers",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "isPaid",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "address",
+                    "name": "teacherAddress",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
                     "name": "courseId",
                     "type": "uint256"
                 }
@@ -131,90 +155,103 @@ export default function Form(){
                 {
                     "components": [
                         {
+                            "internalType": "string",
                             "name": "datetime",
                             "type": "string"
                         },
                         {
+                            "internalType": "string",
                             "name": "location",
                             "type": "string"
                         },
                         {
+                            "internalType": "uint256",
                             "name": "price",
                             "type": "uint256"
                         },
                         {
+                            "internalType": "address[]",
                             "name": "subscribersAddress",
                             "type": "address[]"
                         },
                         {
+                            "internalType": "uint256",
                             "name": "sizeSubscribers",
                             "type": "uint256"
                         },
                         {
+                            "internalType": "bool",
                             "name": "isPaid",
                             "type": "bool"
                         },
                         {
+                            "internalType": "address",
                             "name": "teacherAddress",
                             "type": "address"
                         }
                     ],
+                    "internalType": "struct Cygne.Course",
                     "name": "course",
                     "type": "tuple"
                 }
             ],
-            "payable": false,
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [],
             "name": "getCourseList",
             "outputs": [
                 {
                     "components": [
                         {
+                            "internalType": "string",
                             "name": "datetime",
                             "type": "string"
                         },
                         {
+                            "internalType": "string",
                             "name": "location",
                             "type": "string"
                         },
                         {
+                            "internalType": "uint256",
                             "name": "price",
                             "type": "uint256"
                         },
                         {
+                            "internalType": "address[]",
                             "name": "subscribersAddress",
                             "type": "address[]"
                         },
                         {
+                            "internalType": "uint256",
                             "name": "sizeSubscribers",
                             "type": "uint256"
                         },
                         {
+                            "internalType": "bool",
                             "name": "isPaid",
                             "type": "bool"
                         },
                         {
+                            "internalType": "address",
                             "name": "teacherAddress",
                             "type": "address"
                         }
                     ],
+                    "internalType": "struct Cygne.Course[]",
                     "name": "courseList",
                     "type": "tuple[]"
                 }
             ],
-            "payable": false,
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [
                 {
+                    "internalType": "address",
                     "name": "teacherAddress",
                     "type": "address"
                 }
@@ -224,46 +261,53 @@ export default function Form(){
                 {
                     "components": [
                         {
+                            "internalType": "string",
                             "name": "datetime",
                             "type": "string"
                         },
                         {
+                            "internalType": "string",
                             "name": "location",
                             "type": "string"
                         },
                         {
+                            "internalType": "uint256",
                             "name": "price",
                             "type": "uint256"
                         },
                         {
+                            "internalType": "address[]",
                             "name": "subscribersAddress",
                             "type": "address[]"
                         },
                         {
+                            "internalType": "uint256",
                             "name": "sizeSubscribers",
                             "type": "uint256"
                         },
                         {
+                            "internalType": "bool",
                             "name": "isPaid",
                             "type": "bool"
                         },
                         {
+                            "internalType": "address",
                             "name": "teacherAddress",
                             "type": "address"
                         }
                     ],
+                    "internalType": "struct Cygne.Course[]",
                     "name": "coursesReturned",
                     "type": "tuple[]"
                 }
             ],
-            "payable": false,
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [
                 {
+                    "internalType": "address",
                     "name": "teacherAddress",
                     "type": "address"
                 }
@@ -273,69 +317,53 @@ export default function Form(){
                 {
                     "components": [
                         {
+                            "internalType": "string",
                             "name": "name",
                             "type": "string"
                         },
                         {
+                            "internalType": "uint256[]",
                             "name": "coursesId",
                             "type": "uint256[]"
                         }
                     ],
+                    "internalType": "struct Cygne.Teacher",
                     "name": "teacher",
                     "type": "tuple"
                 }
             ],
-            "payable": false,
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [],
             "name": "getTeacherList",
             "outputs": [
                 {
                     "components": [
                         {
+                            "internalType": "string",
                             "name": "name",
                             "type": "string"
                         },
                         {
+                            "internalType": "uint256[]",
                             "name": "coursesId",
                             "type": "uint256[]"
                         }
                     ],
+                    "internalType": "struct Cygne.Teacher[]",
                     "name": "teachers",
                     "type": "tuple[]"
                 }
             ],
-            "payable": false,
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [
                 {
-                    "name": "_name",
-                    "type": "string"
-                }
-            ],
-            "name": "registerAsTeacher",
-            "outputs": [
-                {
-                    "name": "teacherId",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
+                    "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 }
@@ -343,25 +371,44 @@ export default function Form(){
             "name": "teacherList",
             "outputs": [
                 {
+                    "internalType": "string",
                     "name": "name",
                     "type": "string"
                 }
             ],
-            "payable": false,
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "constant": true,
             "inputs": [],
             "name": "test",
             "outputs": [
                 {
+                    "internalType": "uint256",
                     "name": "testR",
                     "type": "uint256"
                 }
             ],
-            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "testObj",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                        }
+                    ],
+                    "internalType": "struct Cygne.TestStruct",
+                    "name": "te",
+                    "type": "tuple"
+                }
+            ],
             "stateMutability": "view",
             "type": "function"
         }
@@ -375,7 +422,7 @@ export default function Form(){
     const [userName, setUsername] = useState("");
     const address = useAddress();
     const [contractToUse, setContractToUse] = useState();
-    const { contract } = useContract("0x7ca1b5Ae8091a2347D16aAF76e83ff1D06975C57", abi);
+    const { contract } = useContract("0x92d0477B577505912c4c59EB886C268aeB5Cd8B3", abi);
     console.log(contract)
 
     const hexToDec = (hex) => {
@@ -387,9 +434,14 @@ export default function Form(){
         const data = await contract.call("test")
         console.log(hexToDec(data[Object.keys(data)[0]]))
         console.log(await contract.call("getCourseList"))
+        console.log(await contract.call("getTeacherList"))
         console.log(await contract.call("getTeacher",
             [
                  "0x5DE97e84E7b0655fd229CD4B408aa706386d26c5"
+            ]))
+        console.log(await contract.call("registerAsTeacher",
+            [
+                "Sidou"
             ]))
     }
    return (
