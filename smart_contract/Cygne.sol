@@ -36,11 +36,11 @@ contract Cygne {
         return id;
     }
 
-    function getCourseList(address teacherAddress) public view returns (Course[] memory courseList) {
+    function getCourseList() public view returns (Course[] memory courseList) {
         return courses;
     }
 
-    function getTeacherList(address teacherAddress) public view returns (Teacher[] memory teachers) {
+    function getTeacherList() public view returns (Teacher[] memory teachers) {
         return teacherList;
     }
 
