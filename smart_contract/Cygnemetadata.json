@@ -1,0 +1,382 @@
+{
+  "compiler": {
+    "version": "0.4.19+commit.c4cbbb05"
+  },
+  "language": "Solidity",
+  "output": {
+    "abi": [
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "addressToTeacherId",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "_name",
+            "type": "string"
+          }
+        ],
+        "name": "registerAsTeacher",
+        "outputs": [
+          {
+            "name": "teacherId",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "courseId",
+            "type": "uint256"
+          }
+        ],
+        "name": "payCourse",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getTeacherList",
+        "outputs": [
+          {
+            "components": [
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "coursesId",
+                "type": "uint256[]"
+              }
+            ],
+            "name": "teachers",
+            "type": "tuple[]"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "teacherAddress",
+            "type": "address"
+          }
+        ],
+        "name": "getCoursesByTeacher",
+        "outputs": [
+          {
+            "components": [
+              {
+                "name": "datetime",
+                "type": "string"
+              },
+              {
+                "name": "location",
+                "type": "string"
+              },
+              {
+                "name": "price",
+                "type": "uint256"
+              },
+              {
+                "name": "subscribersAddress",
+                "type": "address[]"
+              },
+              {
+                "name": "sizeSubscribers",
+                "type": "uint256"
+              },
+              {
+                "name": "isPaid",
+                "type": "bool"
+              },
+              {
+                "name": "teacherAddress",
+                "type": "address"
+              }
+            ],
+            "name": "coursesReturned",
+            "type": "tuple[]"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "courses",
+        "outputs": [
+          {
+            "name": "datetime",
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "name": "sizeSubscribers",
+            "type": "uint256"
+          },
+          {
+            "name": "isPaid",
+            "type": "bool"
+          },
+          {
+            "name": "teacherAddress",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "datetime",
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "type": "uint256"
+          }
+        ],
+        "name": "createCourse",
+        "outputs": [
+          {
+            "name": "courseId",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "teacherList",
+        "outputs": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "courseId",
+            "type": "uint256"
+          }
+        ],
+        "name": "payTeacher",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getCourseList",
+        "outputs": [
+          {
+            "components": [
+              {
+                "name": "datetime",
+                "type": "string"
+              },
+              {
+                "name": "location",
+                "type": "string"
+              },
+              {
+                "name": "price",
+                "type": "uint256"
+              },
+              {
+                "name": "subscribersAddress",
+                "type": "address[]"
+              },
+              {
+                "name": "sizeSubscribers",
+                "type": "uint256"
+              },
+              {
+                "name": "isPaid",
+                "type": "bool"
+              },
+              {
+                "name": "teacherAddress",
+                "type": "address"
+              }
+            ],
+            "name": "courseList",
+            "type": "tuple[]"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "courseId",
+            "type": "uint256"
+          }
+        ],
+        "name": "getCourseById",
+        "outputs": [
+          {
+            "components": [
+              {
+                "name": "datetime",
+                "type": "string"
+              },
+              {
+                "name": "location",
+                "type": "string"
+              },
+              {
+                "name": "price",
+                "type": "uint256"
+              },
+              {
+                "name": "subscribersAddress",
+                "type": "address[]"
+              },
+              {
+                "name": "sizeSubscribers",
+                "type": "uint256"
+              },
+              {
+                "name": "isPaid",
+                "type": "bool"
+              },
+              {
+                "name": "teacherAddress",
+                "type": "address"
+              }
+            ],
+            "name": "course",
+            "type": "tuple"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "teacherAddress",
+            "type": "address"
+          }
+        ],
+        "name": "getTeacher",
+        "outputs": [
+          {
+            "components": [
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "coursesId",
+                "type": "uint256[]"
+              }
+            ],
+            "name": "teacher",
+            "type": "tuple"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    "devdoc": {
+      "methods": {}
+    },
+    "userdoc": {
+      "methods": {}
+    }
+  },
+  "settings": {
+    "compilationTarget": {
+      "contracts/cygne.sol": "Cygne"
+    },
+    "libraries": {},
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "remappings": []
+  },
+  "sources": {
+    "contracts/cygne.sol": {
+      "keccak256": "0x4cb3d658b340d9b516a4ec3df3303603a483f20c65cc9e7006a9faafb08bb6cb",
+      "urls": [
+        "bzzr://70ed7d18f260da73015b16521a723233a67dce4a4c10c33aeb7c199a59c84efa"
+      ]
+    }
+  },
+  "version": 1
+}
