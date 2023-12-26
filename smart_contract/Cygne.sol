@@ -1,13 +1,19 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.8.22;
 
 contract Cygne {
 
     struct Teacher {
+        address adr;
         string name;
         uint256[] coursesId;
     }
 
+    struct TestStruct {
+        string name;
+    }
+
     struct Course {
+        uint256 id;
         string datetime;
         string location;
         uint256 price;
@@ -24,14 +30,17 @@ contract Cygne {
     mapping(address => uint256) public addressToTeacherId;
 //uint tokenValue = 0.01 ether;
 
-    function registerAsTeacher(string memory _name) public view returns (uint256 teacherId) {
-        uint256 id = teacherList.push(Teacher(_name, new uint[](0))) - 1;
+    function registerAsTeacher(string memory _name) public returns (uint256 teacherId) {
+        teacherList.push(Teacher(msg.sender, _name, new uint[](0)));
+        uint256 id = teacherList.length - 1;
         addressToTeacherId[msg.sender] = id;
         return id;
     }
 
-    function createCourse(string memory datetime, string memory location, uint256 price) public view returns (uint256 courseId) {
-        uint256 id = courses.push(Course(datetime, location, price, new address[](0), 0, false, msg.sender)) - 1;
+    function createCourse(string memory datetime, string memory location, uint256 price) public returns (uint256 courseId) {
+        courses.push(Course(0, datetime, location, price, new address[](0), 0, false, msg.sender));
+        uint256 id = courses.length - 1;
+        courses[id].id = id;
         teacherList[addressToTeacherId[msg.sender]].coursesId.push(id);
         return id;
     }
@@ -48,6 +57,15 @@ contract Cygne {
         return teacherList[addressToTeacherId[teacherAddress]];
     }
 
+    function test() public view returns (uint testR) {
+        return 10;
+    }
+
+    function testObj() public view returns (TestStruct memory te) {
+        TestStruct memory tet = TestStruct("test");
+        return tet;
+    }
+
     function getCoursesByTeacher(address teacherAddress) public view returns (Course[] memory coursesReturned) {
         Course[] memory coursesFromTeacher;
         uint256 size = 0;
@@ -61,7 +79,7 @@ contract Cygne {
         coursesFromTeacher = new Course[](size);
         size = 0;
 
-        for (i = 0; i < sizeCourses; i++) {
+        for (uint256 i = 0; i < sizeCourses; i++) {
             if (courses[i].teacherAddress == teacherAddress) {
                 coursesFromTeacher[size] = courses[i];
                 size++;
@@ -84,6 +102,6 @@ contract Cygne {
     function payTeacher(uint256 courseId) public {
         require(msg.sender == courses[courseId].teacherAddress);
         courses[courseId].isPaid = true;
-        msg.sender.send(courses[courseId].price * courses[courseId].sizeSubscribers);
+        payable(msg.sender).send(courses[courseId].price * courses[courseId].sizeSubscribers);
     }
 }
