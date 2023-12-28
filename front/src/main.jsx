@@ -6,8 +6,8 @@ import { MetaMaskProvider } from '@metamask/sdk-react';
 import {  ThirdwebProvider } from "@thirdweb-dev/react";
 
 import { Sepolia } from "@thirdweb-dev/chains";
-import ResponsiveAppBar from "./navbar.jsx";
-
+import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
+import ContractForm from "./form.jsx";
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <ThirdwebProvider activeChain={Sepolia}>
@@ -18,8 +18,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               url: window.location.host,
           }
       }}>
-      <ResponsiveAppBar sx={{minWidth:1800}}></ResponsiveAppBar>
-    <App />
+      <Router>
+        <App></App>
+          <Routes>
+
+          <Route path="/" element={<ContractForm />} />
+          <Route path="/teachers" element={<ContractForm />} />
+          </Routes>
+      </Router>
       </MetaMaskProvider>
       </ThirdwebProvider>
   </React.StrictMode>,

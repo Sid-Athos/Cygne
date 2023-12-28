@@ -1,28 +1,19 @@
 import './App.css'
-
-import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes} from 'react-router-dom';
-
-import ContractForm from './form.jsx'
 import ResponsiveAppBar from "./navbar.jsx";
 
 
-function App() {
+function Header() {
 
-  const router = createBrowserRouter(
-      createRoutesFromElements([
-          <Route path="/" element={<ContractForm />} />,
-          <Route path="/teachers" element={<ContractForm />} />]
-      )
-  );
+
 
   return (
       <>
+          <ResponsiveAppBar sx={{minWidth:1800}}></ResponsiveAppBar>
 
 
-        <RouterProvider router={router} />
       </>
 
   )
 }
 
-export default App
+export default Header
