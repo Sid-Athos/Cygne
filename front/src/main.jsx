@@ -6,6 +6,7 @@ import { MetaMaskProvider } from '@metamask/sdk-react';
 import {  ThirdwebProvider } from "@thirdweb-dev/react";
 
 import { Sepolia } from "@thirdweb-dev/chains";
+import ResponsiveAppBar from "./navbar.jsx";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               url: window.location.host,
           }
       }}>
+      <ResponsiveAppBar sx={{minWidth:1800}}></ResponsiveAppBar>
     <App />
       </MetaMaskProvider>
       </ThirdwebProvider>
