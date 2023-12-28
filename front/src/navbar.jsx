@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+
 import {ConnectWallet} from "@thirdweb-dev/react";
 import {useNavigate} from "react-router-dom";
 
@@ -32,18 +32,10 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: '#1976d2',
-            },
-        },
-    });
+
 
     return (
-        <ThemeProvider theme={darkTheme}>
-        <AppBar position="static">
+        <AppBar position="fixed">
             <Container maxWidth="xl">
                 <Toolbar>
 
@@ -102,7 +94,6 @@ function ResponsiveAppBar() {
                 </Toolbar>
             </Container>
         </AppBar>
-        </ThemeProvider>
     );
 }
 export default ResponsiveAppBar;
