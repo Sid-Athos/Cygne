@@ -14,6 +14,7 @@ contract Cygne {
 
     struct Course {
         uint256 id;
+        string name;
         string datetime;
         string location;
         uint256 price;
@@ -25,20 +26,32 @@ contract Cygne {
 
     Course[] public courses;
     Teacher[] public teacherList;
+    address[] public teacherAddressList;
     uint256 sizeCourses = 0;
 
     mapping(address => uint256) public addressToTeacherId;
 //uint tokenValue = 0.01 ether;
 
+    function teacherExists(address adr) public view returns (bool) {
+        for (uint256 i = 0; i < teacherAddressList.length; i++) {
+            if (teacherAddressList[i] == adr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function registerAsTeacher(string memory _name) public returns (uint256 teacherId) {
+        require(!teacherExists(msg.sender));
         teacherList.push(Teacher(msg.sender, _name, new uint[](0)));
         uint256 id = teacherList.length - 1;
         addressToTeacherId[msg.sender] = id;
+        teacherAddressList.push(msg.sender);
         return id;
     }
 
-    function createCourse(string memory datetime, string memory location, uint256 price) public returns (uint256 courseId) {
-        courses.push(Course(0, datetime, location, price, new address[](0), 0, false, msg.sender));
+    function createCourse(string memory name, string memory datetime, string memory location, uint256 price) public returns (uint256 courseId) {
+        courses.push(Course(0, name, datetime, location, price, new address[](0), 0, false, msg.sender));
         uint256 id = courses.length - 1;
         courses[id].id = id;
         teacherList[addressToTeacherId[msg.sender]].coursesId.push(id);
