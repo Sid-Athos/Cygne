@@ -3,6 +3,11 @@ const ABI = [
     "inputs": [
       {
         "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "datetime",
         "type": "string"
       },
@@ -74,6 +79,13 @@ const ABI = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "unregisterTeacher",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -109,6 +121,11 @@ const ABI = [
       },
       {
         "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "datetime",
         "type": "string"
       },
@@ -136,6 +153,11 @@ const ABI = [
         "internalType": "address",
         "name": "teacherAddress",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "deleted",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -160,6 +182,11 @@ const ABI = [
           },
           {
             "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
             "name": "datetime",
             "type": "string"
           },
@@ -192,6 +219,11 @@ const ABI = [
             "internalType": "address",
             "name": "teacherAddress",
             "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "deleted",
+            "type": "bool"
           }
         ],
         "internalType": "struct Cygne.Course",
@@ -215,6 +247,11 @@ const ABI = [
           },
           {
             "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
             "name": "datetime",
             "type": "string"
           },
@@ -247,6 +284,11 @@ const ABI = [
             "internalType": "address",
             "name": "teacherAddress",
             "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "deleted",
+            "type": "bool"
           }
         ],
         "internalType": "struct Cygne.Course[]",
@@ -276,6 +318,11 @@ const ABI = [
           },
           {
             "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
             "name": "datetime",
             "type": "string"
           },
@@ -308,6 +355,11 @@ const ABI = [
             "internalType": "address",
             "name": "teacherAddress",
             "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "deleted",
+            "type": "bool"
           }
         ],
         "internalType": "struct Cygne.Course[]",
@@ -344,6 +396,11 @@ const ABI = [
             "internalType": "uint256[]",
             "name": "coursesId",
             "type": "uint256[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "deleted",
+            "type": "bool"
           }
         ],
         "internalType": "struct Cygne.Teacher",
@@ -374,11 +431,35 @@ const ABI = [
             "internalType": "uint256[]",
             "name": "coursesId",
             "type": "uint256[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "deleted",
+            "type": "bool"
           }
         ],
         "internalType": "struct Cygne.Teacher[]",
         "name": "teachers",
         "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "teacherAddressList",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -403,6 +484,11 @@ const ABI = [
         "internalType": "string",
         "name": "name",
         "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "deleted",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
