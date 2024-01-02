@@ -101,6 +101,7 @@ contract Cygne {
         uint256 id = courses.length - 1;
         courses[id].id = id;
         teacherList[addressToTeacherId[msg.sender]].coursesId.push(id);
+        sizeCourses++;
         return id;
     }
 
