@@ -50,7 +50,7 @@ export default function Management() {
     const [isUserRegistered,setIsUserRegistered] = useState(false)
     const [isUserATeacher,setIsUserATeacher] = useState(false)
     const [courseLocation, setCourseLocation] = useState("");
-
+    const [courseDateTime, setCourseDateTime] = useState("");
     const [openTeacherModal, setOpenTeacherModal] = useState(false);
     const handleOpenTeacherModal = () => setOpenTeacherModal(true);
     const handleCloseTeacherModal = () => setOpenTeacherModal(false);
@@ -71,7 +71,6 @@ export default function Management() {
             let teacher = {}
             teacher.address = item[0].toLowerCase()
             if(teacher.address === userAddress){
-                console.log("ouai")
                 setIsUserATeacher(true)
             }
             teacher.name = item[1]
@@ -86,6 +85,7 @@ export default function Management() {
                 let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
                 setUserAddress(accounts[0])
                 extractTeachersFromSmartContractResponse(await contract.call("getTeacherList"))
+                console.log(await contract.call("getCourseList"))
             }
 
         }
@@ -118,7 +118,20 @@ export default function Management() {
     }
 
     const addCourse = async () => {
-
+        let basePrice = String(coursePrice)
+        let newPrice = "0,"
+        for(let i = 0; i < (5-basePrice.length); i++){
+            newPrice = `${newPrice}0`
+        }
+        newPrice = `${newPrice}${basePrice}`
+        let res = await contract.call("createCourse",
+            [
+                courseName,
+                courseDateTime,
+                courseLocation,
+                basePrice
+            ])
+        console.log(res)
     }
 
     return (
@@ -162,7 +175,6 @@ export default function Management() {
                                                         label="Course name"
                                                         placeceholder={"Your name"}
                                                         onChange={(event) => {
-                                                            console.log(event.target.value)
                                                             setCourseName(event.target.value)
                                                         }}
                                                     />
@@ -172,7 +184,6 @@ export default function Management() {
                                                         label="Location"
                                                         placeceholder={"Where is the course happening"}
                                                         onChange={(event) => {
-                                                            console.log(event.target.value)
                                                             setCourseLocation(event.target.value)
                                                         }}
                                                     />
@@ -188,7 +199,9 @@ export default function Management() {
                                                                }}></input>
                                                     </Stack>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DateTimePicker/>
+                                                        <DateTimePicker disablePast onChange={(event) => {
+                                                            setCourseDateTime(event["$d"])}
+                                                        }/>
                                                     </LocalizationProvider>
                                                     <Button onClick={addCourse}>Add course </Button>
                                                 </FormControl>
@@ -255,8 +268,6 @@ export default function Management() {
                             {teachers.map(teacher => {
                                 return (<>
                                     <div style={{padding: 10}}>
-
-
                                         <Card sx={{maxWidth: 275}} key={teacher.address}>
                                             <CardContent>
                                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
