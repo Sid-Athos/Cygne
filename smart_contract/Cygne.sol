@@ -9,10 +9,6 @@ contract Cygne {
         bool deleted;
     }
 
-    struct TestStruct {
-        string name;
-    }
-
     struct Course {
         uint256 id;
         string name;
@@ -164,15 +160,6 @@ contract Cygne {
 
     function getTeacher(address teacherAddress) public view returns (Teacher memory teacher) {
         return teacherList[addressToTeacherId[teacherAddress]];
-    }
-
-    function test() public view returns (uint testR) {
-        return 10;
-    }
-
-    function testObj() public view returns (TestStruct memory te) {
-        TestStruct memory tet = TestStruct("test");
-        return tet;
     }
 
     function getCoursesByTeacher(address teacherAddress) public view returns (Course[] memory coursesReturned) {
