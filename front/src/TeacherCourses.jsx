@@ -37,18 +37,18 @@ function CourseDetail(){
         <>
             <Container>
 
+                            {remunerateError &&
+                                <Alert severity="error" sx={{maxWidth:200, margin:'auto'}} onClose={() => setRemunerateError(false)}>You already got paid for this course</Alert>
+                            }
+                                {subscribeToCourseError &&
+                                    <Alert severity="error" sx={{maxWidth:200, margin:'auto'}} onClose={() => setSubscribeToCourseError(false)}>You are already subscribed to this course</Alert>
+                                }
             <Stack direction={"row"}>
             {teacherCourses.map(course => {
                 return (<>
                     <div style={{padding: 10}}>
                         <Card sx={{maxWidth: 275, minWidth: 275, minHeight:150}} key={course.id}>
                             <CardContent>
-                            {remunerateError &&
-                                <Alert severity="error" onClose={() => setRemunerateError(false)}>You already got paid for this course</Alert>
-                            }
-                                {subscribeToCourseError &&
-                                    <Alert severity="error" onClose={() => setSubscribeToCourseError(false)}>You are already subscribed to this course</Alert>
-                                }
                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                     {course.name}
                                 </Typography>
@@ -69,12 +69,11 @@ function CourseDetail(){
                                 course.teacherAddress !== userAddress.toLowerCase() &&
                                 <CardActions sx={{margin:'auto'}}>
                                     <Button onClick={() => {
-                                        try {
-                                            Contract.subscribeToCourse(contract, course)
+                                            Contract.subscribeToCourse(contract, course).catch(err => {
 
-                                        } catch {
                                             setSubscribeToCourseError(true)
-                                        }
+                                            })
+
                                     }} sx={{margin:'auto'}}>
                                         BOOK COURSE
                                     </Button>
@@ -98,6 +97,9 @@ function CourseDetail(){
                     </div>
                 </>)
             })}
+                {teacherCourses.length < 1 &&
+                <>No courses available</>
+                }
             </Stack>
             </Container>
         </>

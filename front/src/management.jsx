@@ -44,6 +44,7 @@ export default function Management({tabInitValue}) {
     const abi = ABI
 
     const [addTeacherError, setAddTeacherError] = useState(false)
+    const [bookCourseError, setBookCourseError] = useState(false)
     const [tabValue, setTabValue] = useState(tabInitValue);
     const [teachers, setTeachers] = useState([])
     const [courses, setCourses] = useState([])
@@ -165,6 +166,9 @@ export default function Management({tabInitValue}) {
 
     return (
         <>
+                {bookCourseError &&
+                    <Alert severity="error" sx={{maxWidth:200, margin:'auto'}} onClose={() => setBookCourseError(false)}>You're already subscribed to the course !</Alert>
+                }
             <Box sx={{width: '80%', marginLeft: 20, typography: 'body1', textAlign: 'center'}}>
                 <TabContext value={tabValue}>
                     <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -239,6 +243,7 @@ export default function Management({tabInitValue}) {
                         {courses.length > 0 &&
                             <>
                                 <Stack direction="row" spacing={2}>
+
                                 {courses.map(course => {
                                     return (<>
                                         <div style={{padding: 10}}>
@@ -258,7 +263,11 @@ export default function Management({tabInitValue}) {
                                                     {
                                                         course.teacherAddress !== userAddress.toLowerCase() &&
 
-                                                            <Button onClick={() => Contract.subscribeToCourse(contract, course)} sx={{margin:'auto'}}>
+                                                            <Button onClick={() => {
+                                                                Contract.subscribeToCourse(contract, course).catch(err => {
+                                                                    setBookCourseError(true)
+                                                                })
+                                                            }} sx={{margin:'auto'}}>
                                                                 BOOK COURSE
                                                             </Button>
                                                     }
@@ -274,6 +283,7 @@ export default function Management({tabInitValue}) {
                     </TabPanel>
                     <TabPanel value="teachers">
                         {!isUserATeacher &&
+
                             <Button variant="outlined" onClick={handleOpenTeacherModal}>Add teacher</Button>
 
                         }

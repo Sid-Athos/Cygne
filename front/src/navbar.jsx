@@ -10,7 +10,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {ConnectWallet} from "@thirdweb-dev/react";
 import {useNavigate} from "react-router-dom";
 
-const pages = ['Courses', 'Teachers', 'About us'];
+const pages = ['Courses'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
