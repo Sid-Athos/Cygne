@@ -25,7 +25,6 @@ function ResponsiveAppBar() {
     };
 
     const handleCloseNavMenu = (page) => {
-        console.log(page)
         navigation(`/${page.toLowerCase()}`)
     };
 

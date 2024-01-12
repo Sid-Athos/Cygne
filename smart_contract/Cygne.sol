@@ -13,13 +13,18 @@ contract Cygne {
         string name;
     }
 
+    struct Subscriber {
+        address subscriberAddress;
+        bool isPaid;
+    }
+
     struct Course {
         uint256 id;
         string name;
         string datetime;
         string location;
         uint256 price;
-        address[] subscribersAddress;
+        Subscriber[] subscribersAddress;
         uint256 sizeSubscribers;
         bool isPaid;
         address teacherAddress;
@@ -193,14 +198,27 @@ contract Cygne {
     }
 
     function payCourse(uint256 courseId) public payable {
-        require(msg.value == courses[courseId].price && msg.sender != courses[courseId].teacherAddress);
+        require(msg.value == courses[courseId].price && msg.sender != courses[courseId].teacherAddress );
         courses[courseId].sizeSubscribers++;
-        courses[courseId].subscribersAddress.push(msg.sender);
+        courses[courseId].isPaid = false;
+        courses[courseId].subscribersAddress.push(Subscriber(msg.sender, false));
     }
+
 
     function payTeacher(uint256 courseId) public {
         require(msg.sender == courses[courseId].teacherAddress);
-        courses[courseId].isPaid = true;
-        payable(msg.sender).send(courses[courseId].price * courses[courseId].sizeSubscribers);
+        uint256 memory count = 0;
+        for (uint256 i = 0; i < courses[courseId].subscribersAddress.length; i++) {
+            if (courses[courseId].subscribersAddress[i].isPaid  == false) {
+                courses[courseId].subscribersAddress[i].isPaid = true;
+                payable(msg.sender).send(courses[courseId].price);
+            } else {
+                count++;
+            }
+        }
+
+        if(count == courses[courseId].subscribersAddress.length){
+            courses[courseId].isPaid = true;
+        }
     }
 }

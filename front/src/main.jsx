@@ -34,8 +34,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <App></App>
           <Routes>
 
-          <Route path="/" element={<ContractForm />} />
-          <Route path="/teachers" element={<ContractForm />} />
+          <Route path="/courses" element={<ContractForm tabInitValue={"courses"}/>} />
+          <Route path="/teachers" element={<ContractForm tabInitValue={"teachers"}/>} />
           <Route path="/teacher/:address/courses" element={<TeacherCourses />} />
           <Route path="/course/:id" element={<CourseDetail />} />
           </Routes>

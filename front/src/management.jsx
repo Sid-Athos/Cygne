@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import Contract from './contractService';
 import {
     Alert,
     Button,
@@ -23,6 +24,7 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
 import {Link} from "react-router-dom";
+import mapCourseList from "./mappers/courseMapper.js";
 
 const style = {
     position: 'absolute',
@@ -37,10 +39,12 @@ const style = {
 };
 
 
-export default function Management() {
+// eslint-disable-next-line react/prop-types
+export default function Management({tabInitValue}) {
     const abi = ABI
 
-    const [tabValue, setTabValue] = useState("courses");
+    const [addTeacherError, setAddTeacherError] = useState(false)
+    const [tabValue, setTabValue] = useState(tabInitValue);
     const [teachers, setTeachers] = useState([])
     const [courses, setCourses] = useState([])
     const [userName, setUsername] = useState("");
@@ -59,13 +63,9 @@ export default function Management() {
     const handleCloseCourseModal = () => setOpenCourseModal(false);
     const {contract} = useContract(import.meta.env.VITE_CONTRACT, abi);
 
-    const hexToDec = (hex) => {
-        if (!isNaN(hex)) {
-            return parseInt(hex, 16)
-        }
-    }
 
-    function extractTeachersFromSmartContractResponse(arrayQuiPue) {
+
+    function extractTeachersFromSmartContractResponse(arrayQuiPue,user) {
         let arrayBg = []
         arrayQuiPue.forEach(item => {
             let teacher = {}
@@ -79,13 +79,18 @@ export default function Management() {
         setTeachers([...arrayBg])
     }
 
+
+
+
+
     useEffect(() => {
         async function fetchData() {
             if (contract) {
                 let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
                 setUserAddress(accounts[0])
-                extractTeachersFromSmartContractResponse(await contract.call("getTeacherList"))
-                console.log(await contract.call("getCourseList"))
+                extractTeachersFromSmartContractResponse(await contract.call("getTeacherList"),accounts[0])
+                setCourses([...mapCourseList(await contract.call("getCourseList"))])
+                console.log(isUserRegistered)
             }
 
         }
@@ -104,12 +109,25 @@ export default function Management() {
             setIsUserRegistered(false)
             if (userName.match("^[a-zA-Z]{10,}$")) {
 
-                const res = await contract.call("registerAsTeacher",
+                try {
+
+                await contract.call("registerAsTeacher",
                     [
                         userName
                     ])
-                console.log(res)
+                let currentTeachers = teachers;
+                let newTeacher = {
+                    name : userName,
+                    address : userAddress
+                }
+                currentTeachers.push(newTeacher)
+                setTeachers([...currentTeachers])
                 setUsername("")
+                    setIsUserRegistered()
+                } catch {
+                    setAddTeacherError(true)
+                }
+
             }
 
         } else {
@@ -123,16 +141,27 @@ export default function Management() {
         for(let i = 0; i < (5-basePrice.length); i++){
             newPrice = `${newPrice}0`
         }
-        newPrice = `${newPrice}${basePrice}`
         let res = await contract.call("createCourse",
             [
                 courseName,
-                courseDateTime,
+                courseDateTime.toString(),
                 courseLocation,
-                basePrice
+                basePrice*1000
             ])
-        console.log(res)
+        let currentCourses = courses;
+        let course = {}
+        course.teacherAddress = userAddress
+        course.name = courseName
+        course.location = courseLocation
+        course.dateTime = courseDateTime
+        course.price = basePrice
+        course.subscribers = []
+
+        currentCourses.push(course)
+        setCourses([...currentCourses])
+
     }
+
 
     return (
         <>
@@ -145,8 +174,6 @@ export default function Management() {
                         </TabList>
                     </Box>
                     <TabPanel value="courses">
-                        {courses.length === 0 &&
-                            <>
                                 <Button variant="outlined" onClick={handleOpenCourseModal}>Add Course</Button>
                                 <Modal
                                     open={openCourseModal}
@@ -209,22 +236,47 @@ export default function Management() {
                                         </Box>
                                     </Box>
                                 </Modal>
-                            </>
-                        }
                         {courses.length > 0 &&
                             <>
-                                Y a qqchose
+                                <Stack direction="row" spacing={2}>
+                                {courses.map(course => {
+                                    return (<>
+                                        <div style={{padding: 10}}>
+                                            <Card sx={{maxWidth: 275, minWidth: 275, maxHeight:150, minHeight:150}} >
+                                                <CardContent>
+                                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                                        {course.name}
+                                                    </Typography>
+                                                    <Typography sx={{fontSize: 12}} color="text.secondary" gutterBottom>
+                                                        {course.location}
+                                                    </Typography>
+                                                    <Typography sx={{fontSize: 12}} color="text.secondary" gutterBottom>
+                                                        {course.datetime}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions>
+                                                    {
+                                                        course.teacherAddress !== userAddress.toLowerCase() &&
+
+                                                            <Button onClick={() => Contract.subscribeToCourse(contract, course)} sx={{margin:'auto'}}>
+                                                                BOOK COURSE
+                                                            </Button>
+                                                    }
+
+                                                </CardActions>
+                                            </Card>
+                                        </div>
+                                    </>)
+                                })}
+                                </Stack>
                             </>
                         }
                     </TabPanel>
                     <TabPanel value="teachers">
-                        <Stack direction={"horizontal"}>
+                        {!isUserATeacher &&
                             <Button variant="outlined" onClick={handleOpenTeacherModal}>Add teacher</Button>
-                            {isUserATeacher &&
-                                <Button variant="outlined" onClick={handleOpenTeacherModal}>Remove teacher</Button>
-                            }
 
-                        </Stack>
+                        }
                         <Modal
                             open={openTeacherModal}
                             onClose={handleCloseTeacherModal}
@@ -237,6 +289,9 @@ export default function Management() {
                                 </Typography>
                                 {isUserRegistered &&
                                     <Alert severity="error" onClose={() => setIsUserRegistered(false)}>A teacher is already registered with this address !</Alert>
+                                }
+                                {addTeacherError &&
+                                    <Alert severity="error" onClose={() => setAddTeacherError(false)}>A teacher is already registered with this address !</Alert>
                                 }
                                 <Box
                                     component="form"
@@ -254,7 +309,6 @@ export default function Management() {
                                                 label="Teacher's name"
                                                 placeceholder={"Your name"}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value)
                                                     setUsername(event.target.value)
                                                 }}
                                             />
@@ -268,14 +322,14 @@ export default function Management() {
                             {teachers.map(teacher => {
                                 return (<>
                                     <div style={{padding: 10}}>
-                                        <Card sx={{maxWidth: 275}} key={teacher.address}>
+                                        <Card sx={{maxWidth: 275, minWidth: 275, maxHeight:150, minHeight:150}} key={teacher.address}>
                                             <CardContent>
                                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                                     {teacher.name}
                                                 </Typography>
                                             </CardContent>
-                                            <CardActions>
-                                                <Link to={`/teacher/${teacher.address}/courses`}>See teacher
+                                            <CardActions sx={{margin:'auto'}}>
+                                                <Link to={`/teacher/${teacher.address}/courses`} >See teacher
                                                     courses</Link>
                                             </CardActions>
                                         </Card>
