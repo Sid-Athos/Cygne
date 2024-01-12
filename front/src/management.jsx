@@ -91,7 +91,6 @@ export default function Management({tabInitValue}) {
                 setUserAddress(accounts[0])
                 extractTeachersFromSmartContractResponse(await contract.call("getTeacherList"),accounts[0])
                 setCourses([...mapCourseList(await contract.call("getCourseList"))])
-                console.log(isUserRegistered)
             }
 
         }
