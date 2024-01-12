@@ -47,7 +47,7 @@ function CourseDetail(){
             {teacherCourses.map(course => {
                 return (<>
                     <div style={{padding: 10}}>
-                        <Card sx={{maxWidth: 275, minWidth: 275, minHeight:150}} key={course.id}>
+                        <Card sx={{maxWidth: 275, minWidth: 275, minHeight:215}} key={course.id}>
                             <CardContent>
                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                     {course.name}
@@ -56,7 +56,7 @@ function CourseDetail(){
                                     {course.location}
                                 </Typography>
                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    {course.price}
+                                    {course.price / 100000} ETH
                                 </Typography>
                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                     {course.dateTime}
@@ -80,7 +80,7 @@ function CourseDetail(){
                             </CardActions>
                             }
                             {
-                                course.teacherAddress === userAddress.toLowerCase() &&
+                                course.teacherAddress === userAddress.toLowerCase() && course.subscribers.length > 0 &&
                                 <CardActions sx={{margin:'auto'}}>
                                     <Button onClick={() => {
                                             Contract.remunerateTeacher(contract, course).catch(error => {

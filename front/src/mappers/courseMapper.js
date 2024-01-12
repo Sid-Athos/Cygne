@@ -1,5 +1,4 @@
 import hexToDec from "./hexMapper.js";
-import {array} from "prop-types";
 
 function mapCourseList(arrayQuiPue) {
     let arrayBg = []
@@ -12,6 +11,8 @@ function mapCourseList(arrayQuiPue) {
         course.dateTime = item.datetime.substring(0,21)
         course.price = hexToDec(item.price)
         course.subscribers = item.subscribersAddress
+        console.log(item.price)
+        console.log(course)
         arrayBg.push(course)
     })
     return arrayBg
