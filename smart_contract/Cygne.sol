@@ -9,15 +9,6 @@ contract Cygne {
         bool deleted;
     }
 
-    struct TestStruct {
-        string name;
-    }
-
-    struct Subscriber {
-        address subscriberAddress;
-        bool isPaid;
-    }
-
     struct Course {
         uint256 id;
         string name;
@@ -65,6 +56,15 @@ contract Cygne {
         return true;
     }
 
+    function checkStudentInCourse(address adr, uint256 courseId) private view returns (bool) {
+        for (uint256 i = 0; i < courses[courseId].subscribersAddress.length; i++) {
+            if (courses[courseId].subscribersAddress[i] == adr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function registerAsTeacher(string memory _name) public returns (uint256 teacherId) {
         require(!teacherExists(msg.sender));
 
@@ -106,6 +106,7 @@ contract Cygne {
         uint256 id = courses.length - 1;
         courses[id].id = id;
         teacherList[addressToTeacherId[msg.sender]].coursesId.push(id);
+        sizeCourses++;
         return id;
     }
 
@@ -161,15 +162,6 @@ contract Cygne {
         return teacherList[addressToTeacherId[teacherAddress]];
     }
 
-    function test() public view returns (uint testR) {
-        return 10;
-    }
-
-    function testObj() public view returns (TestStruct memory te) {
-        TestStruct memory tet = TestStruct("test");
-        return tet;
-    }
-
     function getCoursesByTeacher(address teacherAddress) public view returns (Course[] memory coursesReturned) {
         Course[] memory coursesFromTeacher;
         uint256 size = 0;
@@ -198,7 +190,7 @@ contract Cygne {
     }
 
     function payCourse(uint256 courseId) public payable {
-        require(msg.value == courses[courseId].price && msg.sender != courses[courseId].teacherAddress );
+        require(courses[courseId].isPaid == false && msg.value == courses[courseId].price && msg.sender != courses[courseId].teacherAddress && !checkStudentInCourse(msg.sender, courseId));
         courses[courseId].sizeSubscribers++;
         courses[courseId].isPaid = false;
         courses[courseId].subscribersAddress.push(Subscriber(msg.sender, false));
@@ -206,19 +198,8 @@ contract Cygne {
 
 
     function payTeacher(uint256 courseId) public {
-        require(msg.sender == courses[courseId].teacherAddress);
-        uint256 memory count = 0;
-        for (uint256 i = 0; i < courses[courseId].subscribersAddress.length; i++) {
-            if (courses[courseId].subscribersAddress[i].isPaid  == false) {
-                courses[courseId].subscribersAddress[i].isPaid = true;
-                payable(msg.sender).send(courses[courseId].price);
-            } else {
-                count++;
-            }
-        }
-
-        if(count == courses[courseId].subscribersAddress.length){
-            courses[courseId].isPaid = true;
-        }
+        require(msg.sender == courses[courseId].teacherAddress && courses[courseId].isPaid == false);
+        courses[courseId].isPaid = true;
+        payable(msg.sender).send(courses[courseId].price * courses[courseId].sizeSubscribers);
     }
 }
