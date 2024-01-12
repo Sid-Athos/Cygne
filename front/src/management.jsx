@@ -154,6 +154,7 @@ export default function Management({tabInitValue}) {
         course.name = courseName
         course.location = courseLocation
         course.dateTime = courseDateTime
+        course.isPaid = false;
         course.price = basePrice
         course.subscribers = []
 
@@ -244,6 +245,8 @@ export default function Management({tabInitValue}) {
                                 <Stack direction="row" spacing={2}>
 
                                 {courses.map(course => {
+                                    if(!course.isPaid){
+
                                     return (<>
                                         <div style={{padding: 10}}>
                                             <Card sx={{maxWidth: 275, minWidth: 275, maxHeight:150, minHeight:150}} >
@@ -275,6 +278,7 @@ export default function Management({tabInitValue}) {
                                             </Card>
                                         </div>
                                     </>)
+                                    }
                                 })}
                                 </Stack>
                             </>

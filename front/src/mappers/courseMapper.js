@@ -10,6 +10,7 @@ function mapCourseList(arrayQuiPue) {
         course.location = item.location
         course.dateTime = item.datetime.substring(0,21)
         course.price = hexToDec(item.price)
+        course.isPaid = item.isPaid
         course.subscribers = item.subscribersAddress
         arrayBg.push(course)
     })
