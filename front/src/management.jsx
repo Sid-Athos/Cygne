@@ -249,7 +249,7 @@ export default function Management({tabInitValue}) {
 
                                     return (<>
                                         <div style={{padding: 10}}>
-                                            <Card sx={{maxWidth: 275, minWidth: 275, maxHeight:150, minHeight:150}} >
+                                            <Card sx={{maxWidth: 275, minWidth: 275, maxHeight:250, minHeight:190}} >
                                                 <CardContent>
                                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                                         {course.name}
@@ -258,7 +258,10 @@ export default function Management({tabInitValue}) {
                                                         {course.location}
                                                     </Typography>
                                                     <Typography sx={{fontSize: 12}} color="text.secondary" gutterBottom>
-                                                        {course.datetime}
+                                                        {course.price / 1000} WEI
+                                                    </Typography>
+                                                    <Typography sx={{fontSize: 12}} color="text.secondary" gutterBottom>
+                                                        {course.dateTime}
                                                     </Typography>
                                                 </CardContent>
                                                 <CardActions>

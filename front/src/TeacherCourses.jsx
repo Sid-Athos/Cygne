@@ -56,7 +56,7 @@ function CourseDetail(){
                                     {course.location}
                                 </Typography>
                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                    {course.price / 100000} ETH
+                                    {course.price / 1000} WEI
                                 </Typography>
                                 <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                     {course.dateTime}
